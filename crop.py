@@ -14,16 +14,15 @@ im = ndi.gaussian_filter(im, 4)
 im += 0.2 * np.random.random(im.shape)
 '''
 
-img = io.imread('/data/potato_src/1473498368.jpg', as_grey=False)  # this is a Numpy array with shape (3, 150, 150)
-im = img_to_array(img)
+img = io.imread('data/potato_src/1473498368.jpg', as_grey=True)  # this is a Numpy array with shape (3, 150, 150)
 # Compute the Canny filter for two values of sigma
-edges1 = canny(im)
-edges2 = canny(im, sigma=3)
+edges1 = canny(img)
+edges2 = canny(img, sigma=3)
 
 # display results
 fig, (ax1, ax2, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(8, 3), sharex=True, sharey=True)
 
-ax1.imshow(im, cmap=plt.cm.jet)
+ax1.imshow(img, cmap=plt.cm.jet)
 ax1.axis('off')
 ax1.set_title('noisy image', fontsize=20)
 
