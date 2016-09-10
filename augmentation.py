@@ -16,7 +16,7 @@ def augument_dir(src_path, dist_path):
     imgs_paths = os.listdir(src_path)
     imgs_paths = [os.path.join(src_path, y) for y in imgs_paths]
     for img_path in imgs_paths:
-        img = io.imread(img_path, as_grey=True)  # this is a Numpy array with shape (3, 150, 150)
+        img = io.imread(img_path, as_grey=False)  # this is a Numpy array with shape (3, 150, 150)
         x = img_to_array(img)
         x = x.reshape((1,) + x.shape)  # this is a Numpy array with shape (1, 3, 150, 150)
 
