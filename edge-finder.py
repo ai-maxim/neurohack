@@ -3,38 +3,58 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.filters import gaussian
 from skimage.segmentation import active_contour
+from skimage.color import rgb2gray
 from skimage.feature import canny
 from scipy.misc import imsave
 from scipy import ndimage as ndi
+import os
 
-img = io.imread('/home/xenakrll/Pictures/kartoxa/yellow_potato/26.png', as_grey=True)
+src_path1 = '/home/xenakrll/Pictures/kartoxa/yellow_potato1'
+dist_path1 = '/home/xenakrll/Pictures/kartoxa/cropped_potato'
 
 
+def calc_bounds(img):
+    img = rgb2gray(img)
+    edges = canny(img, sigma=0.5)
 
-edges = canny(img, sigma=0.5)
+    fill_potatoes = ndi.binary_fill_holes(edges)
+    label_objects, nb_labels = ndi.label(fill_potatoes)
+    sizes = np.bincount(label_objects.ravel())
+    mask_sizes = sizes > 10
+    mask_sizes[0] = 0
+    potatoes_cleaned = mask_sizes[label_objects]
 
-fill_potatoes = ndi.binary_fill_holes(edges)
-label_objects, nb_labels = ndi.label(fill_potatoes)
-sizes = np.bincount(label_objects.ravel())
-mask_sizes = sizes > 10
-mask_sizes[0] = 0
-potatoes_cleaned = mask_sizes[label_objects]
+    ax0 = potatoes_cleaned.sum(axis=0)[150:-150]
+    ax1 = potatoes_cleaned.sum(axis=1)[150:-150]
+    ax00 = ax0.argmax(axis=None)
+    ax10 = ax1.argmax(axis=None)
 
-ax0 = potatoes_cleaned.sum(axis=0)[50:-50]
-ax1 = potatoes_cleaned.sum(axis=1)[150:-150]
-ax00 = ax0.argmax(axis=None)
-ax10 = ax1.argmax(axis=None)
+    s = np.linspace(0, 2 * np.pi, 400)
+    x = ax00 + 150 * np.cos(s)
+    y = ax10 + 150 * np.sin(s)
+    # init = np.array([x, y]).T
 
+    lex = ax00 - 150 + 150
+    rex = ax00 + 150 + 150
+    ley = ax10 - 150 + 150
+    hey = ax10 + 150 + 150
+    return lex, rex, ley, hey
+
+def edge_dir(src_path, dist_path):
+    imgs_paths = os.listdir(src_path)
+    for img_path in imgs_paths:
+        img = io.imread(os.path.join(src_path, img_path), as_grey=False)
+        lex, rex, ley, hey = calc_bounds(img)
+        cropped_img = img[ley:hey, lex:rex, :]
+        imsave(os.path.join(dist_path, img_path), cropped_img)
+
+edge_dir(src_path1, dist_path1)
+
+'''
 plt.plot(range(len(ax0)), ax0)
 plt.plot(range(len(ax1)), ax1)
-print (ax00, ax10)
-
-s = np.linspace(0, 2*np.pi, 400)
-x = ax00 + 150*np.cos(s)
-y = ax10 + 150*np.sin(s)
-init = np.array([x, y]).T
-
-
+print (ax00, ax10)'''
+'''
 snake = active_contour(gaussian(img, 3),
                        init, alpha=0.015, beta=10, w_edge=5, gamma=0.001)
 fig, (ax, ax1, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(8, 3), sharex=True, sharey=True)
@@ -51,11 +71,4 @@ ax.axis([0, img.shape[1], img.shape[0], 0])
 fig.subplots_adjust(wspace=0.02, hspace=0.02, top=0.9,
                     bottom=0.02, left=0.02, right=0.98)
 plt.show()
-
-lex = ax00 - 150
-rex = ax00 + 150
-ley = ax10 - 150
-hey = ax10 + 150
-cropped_img = img[ley:hey, lex:rex]
-ax3.imshow(cropped_img)
-imsave('/home/xenakrll/Pictures/kartoxa/jkhjkh.jpeg', cropped_img)
+'''
