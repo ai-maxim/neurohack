@@ -54,12 +54,12 @@ def do(frame):
     # rf = cv2.cvtColor(rf, cv2.COLOR_BGR2GRAY)
     lex, rex, ley, hey = calc_bounds(frame)
 
-    rr, cc = draw.circle_perimeter(lex + 150, ley+ 150, 150)
-    frame[rr, cc, 0] =  255
+    rr, cc = draw.circle_perimeter(lex + 150, ley + 150, 150)
+    frame[rr, cc, 0] =  (255, 0, 0)
     # frame = frame[ley:hey, lex:rex, :]
     for_net = cv2.resize(frame, (150, 150))
     for_net = np.swapaxes(for_net, 0, 2)
-    for_net = for_net.reshape((1,) + for_net.shape)  # this is a Numpy array with shape (1, 3, 150, 150)
+    for_net = for_net.reshape((1, 3, 150, 150) + for_net.shape)  # this is a Numpy array with shape (1, 3, 150, 150)
 
     res = model.predict(for_net)
     print(res)
