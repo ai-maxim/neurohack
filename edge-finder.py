@@ -7,9 +7,9 @@ from skimage.feature import canny
 
 img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498619.jpg', as_grey=True)
 img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498361.jpg', as_grey=True)
-##img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498375.jpg', as_grey=True)
-###img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498666.jpg', as_grey=True)
-#img = io.imread('/home/xenakrll/Pictures/kartoxa/data/train/potato/WP_20160911_043.jpg', as_grey=True)
+img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498375.jpg', as_grey=True)
+img = io.imread('/home/xenakrll/Pictures/kartoxa/data/train/potato/WP_20160911_115.jpg', as_grey=True)
+img = io.imread('/home/xenakrll/Pictures/kartoxa/data/train/potato/WP_20160911_043.jpg', as_grey=True)
 
 
 
@@ -22,20 +22,23 @@ mask_sizes = sizes > 15
 mask_sizes[0] = 0
 potatoes_cleaned = mask_sizes[label_objects]
 
-ax0 = potatoes_cleaned.sum(axis=0).argmax(axis=None)
-ax1 = potatoes_cleaned.sum(axis=1).argmax(axis=None)
+ax0 = potatoes_cleaned.sum(axis=0)[50:-50]
+ax1 = potatoes_cleaned.sum(axis=1)[50:-50]
+ax00 = ax0.argmax(axis=None)
+ax10 = ax1.argmax(axis=None)
+
 #plt.plot(range(len(ax0)), ax0)
 #plt.plot(range(len(ax1)), ax1)
-print (ax0, ax1)
+print (ax00, ax10)
 
 s = np.linspace(0, 2*np.pi, 400)
-x = ax0 + 150*np.cos(s)
-y = ax1 + 100*np.sin(s)
+x = ax00 + 200*np.cos(s)
+y = ax10 + 150*np.sin(s)
 init = np.array([x, y]).T
 
 
 snake = active_contour(gaussian(img, 3),
-                       init, alpha=0.015, beta=10, w_edge=1, gamma=0.001)
+                       init, alpha=0.015, beta=10, w_edge=5, gamma=0.001)
 fig, (ax, ax1) = plt.subplots(nrows=1, ncols=2, figsize=(8, 3), sharex=True, sharey=True)
 #fig = plt.figure(figsize=(7, 7))
 #ax = fig.add_subplot(111)
