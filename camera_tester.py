@@ -3,12 +3,10 @@ from os.path import join
 from keras.models import load_model
 from skimage import io
 from skimage.transform import resize
+from skimage import draw
 from classifier import create_model
-from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
-import os
-import random
 import numpy as np
-import matplotlib.pyplot as plt
+from edge_finder import calc_bounds
 
 
 PREVIEW = "preview"
@@ -54,6 +52,11 @@ def main():
 
 def do(frame):
     # rf = cv2.cvtColor(rf, cv2.COLOR_BGR2GRAY)
+    lex, rex, ley, hey = calc_bounds(frame)
+
+    rr, cc = draw.circle_perimeter(lex + 150, ley+ 150, 150)
+    frame[rr, cc, 0] =  255
+    # frame = frame[ley:hey, lex:rex, :]
     for_net = cv2.resize(frame, (150, 150))
     for_net = np.swapaxes(for_net, 0, 2)
     for_net = for_net.reshape((1,) + for_net.shape)  # this is a Numpy array with shape (1, 3, 150, 150)

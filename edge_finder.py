@@ -9,8 +9,8 @@ from scipy.misc import imsave
 from scipy import ndimage as ndi
 import os
 
-src_path1 = '/home/xenakrll/Pictures/kartoxa/yellow_potato1'
-dist_path1 = '/home/xenakrll/Pictures/kartoxa/cropped_potato'
+src_path1 = 'data/luk'
+dist_path1 = 'data/cropped_luk'
 
 
 def calc_bounds(img):
@@ -48,7 +48,6 @@ def edge_dir(src_path, dist_path):
         cropped_img = img[ley:hey, lex:rex, :]
         imsave(os.path.join(dist_path, img_path), cropped_img)
 
-edge_dir(src_path1, dist_path1)
 
 '''
 plt.plot(range(len(ax0)), ax0)
