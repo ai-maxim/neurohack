@@ -4,17 +4,15 @@ import matplotlib.pyplot as plt
 from skimage.filters import gaussian
 from skimage.segmentation import active_contour
 from skimage.feature import canny
+from scipy.misc import imsave
+from scipy import ndimage as ndi
 
-img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498619.jpg', as_grey=True)
-img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498361.jpg', as_grey=True)
-img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498375.jpg', as_grey=True)
-img = io.imread('/home/xenakrll/Pictures/kartoxa/data/train/potato/WP_20160911_115.jpg', as_grey=True)
 img = io.imread('/home/xenakrll/Pictures/kartoxa/yellow_potato/26.png', as_grey=True)
 
 
 
 edges = canny(img, sigma=0.5)
-from scipy import ndimage as ndi
+
 fill_potatoes = ndi.binary_fill_holes(edges)
 label_objects, nb_labels = ndi.label(fill_potatoes)
 sizes = np.bincount(label_objects.ravel())
@@ -39,7 +37,7 @@ init = np.array([x, y]).T
 
 snake = active_contour(gaussian(img, 3),
                        init, alpha=0.015, beta=10, w_edge=5, gamma=0.001)
-fig, (ax, ax1) = plt.subplots(nrows=1, ncols=2, figsize=(8, 3), sharex=True, sharey=True)
+fig, (ax, ax1, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(8, 3), sharex=True, sharey=True)
 #fig = plt.figure(figsize=(7, 7))
 #ax = fig.add_subplot(111)
 #ax1 = fig.add_subplot(111)
@@ -53,3 +51,11 @@ ax.axis([0, img.shape[1], img.shape[0], 0])
 fig.subplots_adjust(wspace=0.02, hspace=0.02, top=0.9,
                     bottom=0.02, left=0.02, right=0.98)
 plt.show()
+
+lex = ax00 - 150
+rex = ax00 + 150
+ley = ax10 - 150
+hey = ax10 + 150
+cropped_img = img[ley:hey, lex:rex]
+ax3.imshow(cropped_img)
+imsave('/home/xenakrll/Pictures/kartoxa/jkhjkh.jpeg', cropped_img)
