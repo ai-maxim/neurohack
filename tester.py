@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 
 
 model = create_model()
-model.load_weights('first_try.h5')
+model.load_weights('second_try_2.h5')
 
-pts = [os.path.join('data/validation/potato', x) for x in os.listdir('data/validation/potato')]
-npts = [os.path.join('data/validation/trash', x) for x in os.listdir('data/validation/trash')]
+pts = [os.path.join('data/train/potato', x) for x in os.listdir('data/train/potato')]
+npts = [os.path.join('data/train/trash', x) for x in os.listdir('data/train/trash')]
 imgs = pts + npts
 random.shuffle(imgs)
 
