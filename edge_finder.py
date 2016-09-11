@@ -42,32 +42,12 @@ def calc_bounds(img):
 
 def edge_dir(src_path, dist_path):
     imgs_paths = os.listdir(src_path)
-    for img_path in imgs_paths:
+    for i, img_path in enumerate(imgs_paths):
+        print("{} from {}".format(i, len(imgs_paths)))
         img = io.imread(os.path.join(src_path, img_path), as_grey=False)
         lex, rex, ley, hey = calc_bounds(img)
         cropped_img = img[ley:hey, lex:rex, :]
         imsave(os.path.join(dist_path, img_path), cropped_img)
 
-
-'''
-plt.plot(range(len(ax0)), ax0)
-plt.plot(range(len(ax1)), ax1)
-print (ax00, ax10)'''
-'''
-snake = active_contour(gaussian(img, 3),
-                       init, alpha=0.015, beta=10, w_edge=5, gamma=0.001)
-fig, (ax, ax1, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(8, 3), sharex=True, sharey=True)
-#fig = plt.figure(figsize=(7, 7))
-#ax = fig.add_subplot(111)
-#ax1 = fig.add_subplot(111)
-plt.gray()
-ax1.imshow(potatoes_cleaned)
-ax.imshow(img)
-ax.plot(init[:, 0], init[:, 1], '--r', lw=3)
-ax.plot(snake[:, 0], snake[:, 1], '-b', lw=3)
-ax.set_xticks([]), ax.set_yticks([])
-ax.axis([0, img.shape[1], img.shape[0], 0])
-fig.subplots_adjust(wspace=0.02, hspace=0.02, top=0.9,
-                    bottom=0.02, left=0.02, right=0.98)
-plt.show()
-'''
+if __name__ == "__main__":
+    edge_dir(src_path1, dist_path1)
