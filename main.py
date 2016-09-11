@@ -35,4 +35,4 @@ model.fit_generator(
     nb_epoch=50,
     validation_data=validation_generator,
     nb_val_samples=400)
-model.save_weights('second_try_2.h5')  # always save your weights after training or during training
+model.save_weights('third_try.h5')  # always save your weights after training or during training
