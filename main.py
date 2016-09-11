@@ -7,8 +7,6 @@ train_datagen = ImageDataGenerator(
         rotation_range=40,
         rescale=1./255,
         shear_range=0.2,
-        height_shift_range=0.2,
-        zoom_range=0.3,
         horizontal_flip=True)
 
 # this is the augmentation configuration we will use for testing:
@@ -34,7 +32,7 @@ validation_generator = test_datagen.flow_from_directory(
 model.fit_generator(
     train_generator,
     samples_per_epoch=400,
-    nb_epoch=100,
+    nb_epoch=50,
     validation_data=validation_generator,
     nb_val_samples=400)
 model.save_weights('second_try_2.h5')  # always save your weights after training or during training
