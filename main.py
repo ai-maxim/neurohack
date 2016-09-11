@@ -34,7 +34,7 @@ validation_generator = test_datagen.flow_from_directory(
 model.fit_generator(
     train_generator,
     samples_per_epoch=400,
-    nb_epoch=50,
+    nb_epoch=100,
     validation_data=validation_generator,
     nb_val_samples=400)
-model.save_weights('second_try.h5')  # always save your weights after training or during training
+model.save_weights('second_try_2.h5')  # always save your weights after training or during training
