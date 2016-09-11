@@ -4,9 +4,11 @@ model = create_model()
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
+        rotation_range=40,
         rescale=1./255,
         shear_range=0.2,
-        zoom_range=0.2,
+        height_shift_range=0.2,
+        zoom_range=0.3,
         horizontal_flip=True)
 
 # this is the augmentation configuration we will use for testing:
