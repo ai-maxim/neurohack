@@ -12,11 +12,11 @@ scipy_version = list(map(int, scipy.__version__.split('.')))
 new_scipy = scipy_version[0] > 0 or \
             (scipy_version[0] == 0 and scipy_version[1] >= 14)
 
-img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498311.jpg', as_grey=True)
+img = io.imread('/home/xenakrll/Pictures/kartoxa/potato/1473498619.jpg', as_grey=True)
 
 s = np.linspace(0, 2*np.pi, 400)
-x = 302 + 150*np.cos(s)
-y = 225 + 150*np.sin(s)
+x = 302 + 250*np.cos(s)
+y = 225 + 200*np.sin(s)
 init = np.array([x, y]).T
 
 if not new_scipy:
@@ -26,7 +26,7 @@ if not new_scipy:
 
 if new_scipy:
     snake = active_contour(gaussian(img, 3),
-                           init, alpha=0.015, beta=10, gamma=0.001)
+                           init, alpha=0.015, beta=10, w_edge=10, gamma=0.001)
 
     fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(111)
