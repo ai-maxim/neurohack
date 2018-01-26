@@ -3,13 +3,13 @@ from skimage import io
 import os
 
 datagen = ImageDataGenerator(
-        rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest')
+        rotation_range=40,#диапазон вращения
+        width_shift_range=0.2,#ширина сдвига
+        height_shift_range=0.2,#диапазон изменения высоты
+        shear_range=0.2, #диапазон сдвига
+        zoom_range=0.2,#диапазон масштабирования
+        horizontal_flip=True, #горизонтальный флип
+        fill_mode='nearest') #режим заполнения
 
 
 def augument_dir(src_path, dist_path):
